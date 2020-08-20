@@ -7,7 +7,9 @@
  * @note       Demonstates a 1D, second-order PLM-based hydro code. It also
  *             introduces explicit RK time-stepping through a generic advance_rk
  *             function. The solution state type must satisfy the custom trait
- *             WeightedAverage.
+ *             WeightedAverage. In this program we also introduce the Rational64
+ *             type from num::rational, which is used to track fractional
+ *             iterations you get with Runge-Kutta time stepping.
  */
 
 
@@ -107,6 +109,10 @@ impl Mul<Rational64> for SolutionState {
 impl WeightedAverage for SolutionState {
 }
 
+
+
+
+// ============================================================================
 impl SolutionState {
     fn write_ascii(self, filename: String, gamma_law_index: f64, cell_centers: Array1<f64>) {
         use std::fs::File;
