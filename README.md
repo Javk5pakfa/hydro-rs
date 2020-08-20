@@ -7,3 +7,11 @@ This project is intended to help students learn how to write fast, pedagogical h
 1. For my own enjoyment, I wanted to learn Rust!
 2. Rust is easier to learn than C++ and it yields safer code; no more seg-faults for new programmers!
 3. Because of Cargo and the Rust ecosystem: just write your physics solver in Rust and harvest the rest of your app from the hive
+
+## Download, build, and run, and plot
+```
+$> git clone https://github.com/jzrake/hydro-rs
+$> cd hydro-rs
+$> cargo run --bin euler1d-nodeps --release
+$> ./plot
+```
