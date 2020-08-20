@@ -1,0 +1,8 @@
+[package]
+name = "euler1d-ndarray"
+version = "0.1.0"
+authors = ["Jonathan Zrake <jonathan.zrake@gmail.com>"]
+edition = "2018"
+
+[dependencies]
+ndarray = "0.13.1"

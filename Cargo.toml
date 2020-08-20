@@ -1,0 +1,12 @@
+[workspace]
+
+members = ["euler1d-nodeps",
+	"euler1d-ndarray",
+	"euler1d-locimport",
+	"euler1d-plm",
+	"lib-euler1d",
+	"vec3d",
+	]
+
+[profile.release]
+lto = true
