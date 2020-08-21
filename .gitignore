@@ -1,3 +1,5 @@
 /target
 /undead
 Cargo.lock
+*.dat
+*.h5

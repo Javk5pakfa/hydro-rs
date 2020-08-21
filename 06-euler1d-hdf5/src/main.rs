@@ -4,22 +4,7 @@
  *
  * @copyright  Jonathan Zrake, Clemson University (2020)
  *
- * @note       Factors generalizable code used in the previous examples into the
- *             lib_hydro_algorithms crate. The SolutionState struct is now
- *             created by specializing the SolutionStateArray1 generic struct,
- *             which comes already enabled for Runge-Kutta integration via the
- *             WeightedAverage trait. We have also created a generic PLM
- *             function in lib_hydro_algorithms::piecewise_linear, through use
- *             of the IntoAndFromF64Array3 trait, which is implemented for the
- *             lib_euler1d::Primitive struct.
- *
- *             The remaining code demonstates illustrates common boilerplate
- *             functions you expect to see at the top level of a science
- *             program:
- *
- *             1. The main loop
- *             2. The initial state function
- *             3. The update function
+ * @note       Demonstrates how to output data to an HDF5 file rather than ASCII.
  */
 
 
@@ -35,6 +20,7 @@ use lib_euler1d::*;
 use lib_hydro_algorithms::runge_kutta as rk;
 use lib_hydro_algorithms::piecewise_linear::plm_gradient3;
 use lib_hydro_algorithms::solution_states::SolutionStateArray1;
+use lib_hydro_algorithms::IntoAndFromF64Array3;
 
 
 
@@ -46,16 +32,28 @@ type SolutionState = SolutionStateArray1<Conserved>;
 
 
 // ============================================================================
-fn write_ascii(state: &SolutionState, filename: String, gamma_law_index: f64, cell_centers: Array1<f64>) {
-    use std::fs::File;
-    use std::io::prelude::*;
-    use std::io::LineWriter;
-    let file = File::create(filename);
-    let mut writer = LineWriter::new(file.unwrap());
+fn write_hdf5(state: &SolutionState, filename: String, gamma_law_index: f64, cell_centers: Array1<f64>) -> Result<(), hdf5::Error> {
+    use hdf5::types::VarLenAscii;
+    use hdf5::File;
 
-    for (x, p) in cell_centers.iter().zip(state.conserved.iter().map(|u| u.to_primitive(gamma_law_index))) {
-        writeln!(writer, "{} {} {} {}", x, p.0, p.1, p.2).expect("Write failed");
-    }
+    /* The 'format' dataset below contains a string hint about the HDF5 file
+     * contents, which can be used in plotting, by analysis scripts, or for
+     * restarting simulations from HDF5 files. This string is by-convention:
+     * your science workflow should keep track if the various simulation formats
+     * in use, and manage a distinct set of keys: e.g. euler1d, mhd2d,
+     * srhd1d-moving-mesh etc which map to a set of groups and datasets which
+     * programs opening the HDF5 file can expect to see. In this set of
+     * tutorials, there is a single plotting script which uses the format a hint
+     * for how the data should be displayed.
+     */
+
+    let file = File::create(filename)?;
+    let data = state.conserved.mapv(|u| u.to_primitive(gamma_law_index).into_f64_array3());
+    file.new_dataset::<[f64; 3]>().create("primitive", data.len_of(Axis(0)))?.write(&data)?;
+    file.new_dataset::<f64>().create("cell_centers", cell_centers.len_of(Axis(0)))?.write(&cell_centers)?;
+    file.new_dataset::<VarLenAscii>().create("format", ())?.write_scalar(&VarLenAscii::from_ascii("euler1d").unwrap())?;
+
+    Ok(())
 }
 
 
@@ -143,5 +141,5 @@ fn main() {
     }
 
     println!("mean kzps = {:.3}", (num_zones as f64) * 1e-3 * state.iteration.to_f64().unwrap() / start_program.elapsed().as_secs_f64());
-    write_ascii(&state, "output.dat".to_string(), gamma_law_index, cell_centers(num_zones));
+    write_hdf5(&state, "output.h5".to_string(), gamma_law_index, cell_centers(num_zones)).expect("HDF5 write failed");
 }

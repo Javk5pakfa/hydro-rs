@@ -5,6 +5,7 @@ members = [
     "03-euler1d-locimport",
     "04-euler1d-plm",
     "05-euler1d-refactor",
+    "06-euler1d-hdf5",
     "lib-euler1d",
     "lib-hydro-algorithms",
     ]
