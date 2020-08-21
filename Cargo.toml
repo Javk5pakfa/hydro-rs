@@ -1,11 +1,12 @@
 [workspace]
-
 members = [
     "01-euler1d-nodeps",
     "02-euler1d-ndarray",
     "03-euler1d-locimport",
     "04-euler1d-plm",
+    "05-euler1d-refactor",
     "lib-euler1d",
+    "lib-hydro-algorithms",
     ]
 
 [profile.release]

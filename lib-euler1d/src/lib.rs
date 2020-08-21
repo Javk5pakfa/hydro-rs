@@ -1,3 +1,8 @@
+use lib_hydro_algorithms::IntoAndFromF64Array3;
+
+
+
+
 // ============================================================================
 #[derive(Copy, Clone)]
 pub struct Conserved(pub f64, pub f64, pub f64);
@@ -24,6 +29,19 @@ impl std::ops::Sub<Conserved> for Conserved { type Output = Self; fn sub(self, u
 impl std::ops::Mul<Conserved> for f64 { type Output = Conserved; fn mul(self, u: Conserved) -> Conserved { Conserved(self * u.0, self * u.1, self * u.2) } }
 impl std::ops::Mul<f64> for Conserved { type Output = Conserved; fn mul(self, a: f64) -> Conserved { Conserved(self.0 * a, self.1 * a, self.2 * a) } }
 impl std::ops::Div<f64> for Conserved { type Output = Conserved; fn div(self, a: f64) -> Conserved { Conserved(self.0 / a, self.1 / a, self.2 / a) } }
+
+
+
+
+// ============================================================================
+impl IntoAndFromF64Array3 for Primitive {
+    fn into_f64_array3(self) -> [f64; 3] {
+        [self.0, self.1, self.2]
+    }
+    fn from_f64_array3(a: [f64; 3]) -> Primitive {
+        Primitive(a[0], a[1], a[2])
+    }
+}
 
 
 

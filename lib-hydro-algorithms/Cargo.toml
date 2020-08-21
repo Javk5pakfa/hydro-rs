@@ -1,8 +1,9 @@
 [package]
-name = "lib-euler1d"
+name = "lib-hydro-algorithms"
 version = "0.1.0"
 authors = ["Jonathan Zrake <jonathan.zrake@gmail.com>"]
 edition = "2018"
 
 [dependencies]
-lib-hydro-algorithms = { path = "../lib-hydro-algorithms" }
+ndarray = "0.13.1"
+num = "0.3.0"
