@@ -13,5 +13,5 @@ This project is intended to help students learn how to write fast, pedagogical h
 $> git clone https://github.com/jzrake/hydro-rs
 $> cd hydro-rs
 $> cargo run --bin euler1d-nodeps --release
-$> ./plot
+$> ./plot.py output.dat
 ```
