@@ -2,9 +2,9 @@
  * @brief      Rust implentation of a 2nd-order Godunov code to solve the 1D
  *             Euler equation.
  *
- * @copyright  Jonathan Zrake, Clemson University, 2020
+ * @copyright  Jonathan Zrake, Clemson University (2020)
  *
- * @note       Demonstates a 1D, second-order PLM-based hydro code. It also
+ * @note       Demonstrates a 1D, second-order PLM-based hydro code. It also
  *             introduces explicit RK time-stepping through a generic advance_rk
  *             function. The solution state type must satisfy the custom trait
  *             WeightedAverage. In this program we also introduce the Rational64

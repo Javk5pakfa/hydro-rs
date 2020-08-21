@@ -2,7 +2,7 @@
  * @brief      Rust implentation of a 1st-order Godunov code to solve the 1D
  *             Euler equation.
  *
- * @copyright  Jonathan Zrake, Clemson University, 2020
+ * @copyright  Jonathan Zrake, Clemson University (2020)
  *
  * @note       This is an out-of-the-box Rust implementation, no user crates are
  *             required.

@@ -2,7 +2,7 @@
  * @brief      Rust implentation of a 1st-order Godunov code to solve the 1D
  *             Euler equation.
  *
- * @copyright  Jonathan Zrake, Clemson University, 2020
+ * @copyright  Jonathan Zrake, Clemson University (2020)
  *
  * @note       This implementation of the 1d hydro code uses the ndarray crate.
  *             It is ~15-20% slower than the nodeps version.
