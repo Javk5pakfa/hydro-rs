@@ -1,5 +1,5 @@
 /**
- * @brief      Rust implentation of a 1st-order Godunov code to solve the 1D
+ * @brief      Rust implementation of a 1st-order Godunov code to solve the 1D
  *             Euler equation.
  *
  * @copyright  Jonathan Zrake, Clemson University (2020)

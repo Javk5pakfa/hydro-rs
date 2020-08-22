@@ -1,12 +1,13 @@
 /**
- * @brief      Rust implentation of a 1st-order Godunov code to solve the 1D
+ * @brief      Rust implementation of a 1st-order Godunov code to solve the 1D
  *             Euler equation.
  *
  * @copyright  Jonathan Zrake, Clemson University (2020)
  *
  * @note       This version demonstrates use of the local lib-euler1d crate.
- *             Note that performance is ~50% slower than the no-import version,
- *             unless the build profile enables link-time-optimizations "lto".
+ *             Note that performance is ~50% slower than the previous version
+ *             with hydro equations defined in-line, unless the build profile
+ *             enables link-time-optimizations "lto".
  */
 
 
