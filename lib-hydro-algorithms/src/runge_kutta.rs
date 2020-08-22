@@ -1,5 +1,5 @@
+use std::ops::{Add, Mul};
 use num::rational::Rational64;
-use crate::WeightedAverage;
 
 
 
@@ -12,12 +12,12 @@ pub enum RungeKuttaOrder {
     RK3,
 }
 
-pub fn advance_rk1<State, Update>(s0: State, update: Update) -> State where State: WeightedAverage, Update: Fn(State) -> State
+pub fn advance_rk1<State, Update>(s0: State, update: Update) -> State where State: Clone + Add<Output=State> + Mul<Rational64, Output=State>, Update: Fn(State) -> State
 {
     update(s0)
 }
 
-pub fn advance_rk2<State, Update>(s0: State, update: Update) -> State where State: WeightedAverage, Update: Fn(State) -> State
+pub fn advance_rk2<State, Update>(s0: State, update: Update) -> State where State: Clone + Add<Output=State> + Mul<Rational64, Output=State>, Update: Fn(State) -> State
 {
     let b0 = Rational64::new(0, 1);
     let b1 = Rational64::new(1, 2);
@@ -27,7 +27,7 @@ pub fn advance_rk2<State, Update>(s0: State, update: Update) -> State where Stat
     s1
 }
 
-pub fn advance_rk3<State, Update>(s0: State, update: Update) -> State where State: WeightedAverage, Update: Fn(State) -> State
+pub fn advance_rk3<State, Update>(s0: State, update: Update) -> State where State: Clone + Add<Output=State> + Mul<Rational64, Output=State>, Update: Fn(State) -> State
 {
     let b0 = Rational64::new(0, 1);
     let b1 = Rational64::new(3, 4);
@@ -39,7 +39,7 @@ pub fn advance_rk3<State, Update>(s0: State, update: Update) -> State where Stat
     s1
 }
 
-pub fn advance<State, Update>(state: State, update: Update, order: RungeKuttaOrder) -> State where State: WeightedAverage, Update: Fn(State) -> State
+pub fn advance<State, Update>(state: State, update: Update, order: RungeKuttaOrder) -> State where State: Clone + Add<Output=State> + Mul<Rational64, Output=State>, Update: Fn(State) -> State
 {
     match order {
         RungeKuttaOrder::RK1 => advance_rk1(state, update),        

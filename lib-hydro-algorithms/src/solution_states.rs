@@ -2,7 +2,6 @@ use core::ops::{Add, Mul};
 use ndarray::Array1;
 use num::rational::Rational64;
 use num::ToPrimitive;
-use crate::WeightedAverage;
 
 
 
@@ -35,7 +34,4 @@ impl<T> Mul<Rational64> for SolutionStateArray1<T> where Array1<T>: Mul<f64, Out
             conserved: self.conserved * b.to_f64().unwrap(),
         }
     }
-}
-
-impl<T> WeightedAverage for SolutionStateArray1<T> where T: Clone, Array1<T>: Add<Array1<T>, Output=Array1<T>>, Array1<T>: Mul<f64, Output=Array1<T>> {
 }
