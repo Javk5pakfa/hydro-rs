@@ -22,7 +22,6 @@ use lib_euler1d::*;
 use lib_hydro_algorithms::runge_kutta as rk;
 use lib_hydro_algorithms::piecewise_linear::plm_gradient3;
 use lib_hydro_algorithms::solution_states::SolutionStateArray1;
-use lib_hydro_algorithms::IntoAndFromF64Array3;
 
 
 
@@ -39,7 +38,7 @@ fn write_hdf5(state: &SolutionState, filename: String, gamma_law_index: f64, cel
     use hdf5::File;
 
     let file = File::create(filename)?;
-    let data = state.conserved.mapv(|u| u.to_primitive(gamma_law_index).into_f64_array3());
+    let data = state.conserved.mapv(|u| Into::<[f64; 3]>::into(u.to_primitive(gamma_law_index)));
     file.new_dataset::<[f64; 3]>().create("primitive", data.len_of(Axis(0)))?.write(&data)?;
     file.new_dataset::<f64>().create("cell_centers", cell_centers.len_of(Axis(0)))?.write(&cell_centers)?;
     file.new_dataset::<VarLenAscii>().create("format", ())?.write_scalar(&VarLenAscii::from_ascii("euler1d").unwrap())?;

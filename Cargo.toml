@@ -12,4 +12,5 @@ members = [
     ]
 
 [profile.release]
-lto = true # enabling link-time optimizations on the release build really improves performance
+lto = false # enabling link-time optimizations on the release build can
+            # significantly improve performance

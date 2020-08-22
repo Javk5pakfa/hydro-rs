@@ -1,8 +1,3 @@
-use crate::IntoAndFromF64Array3;
-
-
-
-
 //============================================================================
 fn sgn(a: f64) -> f64 {
     1.0f64.copysign(a)
@@ -23,14 +18,14 @@ fn plm_gradient_f64(theta: f64, yl: f64, y0: f64, yr: f64) -> f64 {
 
 
 //============================================================================
-pub fn plm_gradient3<T: Copy + IntoAndFromF64Array3>(theta: f64, xl: &T, x0: &T, xr: &T) -> T {
-    let yl = xl.into_f64_array3();
-    let y0 = x0.into_f64_array3();
-    let yr = xr.into_f64_array3();
+pub fn plm_gradient3<T: Copy + Into<[f64; 3]> + From<[f64; 3]>>(theta: f64, xl: &T, x0: &T, xr: &T) -> T {
+    let yl: [f64; 3] = (*xl).into();
+    let y0: [f64; 3] = (*x0).into();
+    let yr: [f64; 3] = (*xr).into();
 
     let p0 = plm_gradient_f64(theta, yl[0], y0[0], yr[0]);
     let p1 = plm_gradient_f64(theta, yl[1], y0[1], yr[1]);
     let p2 = plm_gradient_f64(theta, yl[2], y0[2], yr[2]);
 
-    T::from_f64_array3([p0, p1, p2])
+    [p0, p1, p2].into()
 }
