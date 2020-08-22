@@ -1,0 +1,13 @@
+[package]
+name = "euler1d-cli"
+version = "0.1.0"
+authors = ["Jonathan Zrake <jonathan.zrake@gmail.com>"]
+edition = "2018"
+
+[dependencies]
+ndarray = "0.13.1"
+num     = "0.3.0"
+hdf5    = "0.7.0"
+clap    = "3.0.0-beta.1"
+lib-euler1d          = { path = "../lib-euler1d" }
+lib-hydro-algorithms = { path = "../lib-hydro-algorithms" }

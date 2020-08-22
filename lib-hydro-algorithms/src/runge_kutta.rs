@@ -5,6 +5,7 @@ use crate::WeightedAverage;
 
 
 //============================================================================
+#[derive(Clone, Copy)]
 pub enum RungeKuttaOrder {
     RK1,
     RK2,
