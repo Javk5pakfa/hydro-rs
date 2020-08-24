@@ -130,14 +130,17 @@ fn initial_state(num_zones: usize, gamma_law_index: f64) -> SolutionState {
 
 // ============================================================================
 struct Opts {
-    #[clap(short, long, default_value="1000", about="The number of grid cells to use")]
+    #[clap(short, long, default_value="5000", about="The number of grid cells to use")]
     num_zones: usize,
 
-    #[clap(short, long, default_value="0.0", about="The time at which to stop the simulation")]
+    #[clap(short, long, default_value="0.2", about="The time at which to stop the simulation")]
     tfinal: f64,
 
-    #[clap(short, long, default_value="2", about="The time at which to stop the simulation")]
+    #[clap(short, long, default_value="2", about="Runge-Kutta time integration order")]
     rk_order: i64,
+
+    #[clap(long, about="Suppress the iteration message")]
+    quiet: bool,
 }
 
 
@@ -161,7 +164,10 @@ fn main() {
     while state.time < opts.tfinal {
         let start = Instant::now();
         state = rk::advance(state, |s| update(s, gamma_law_index), rk_order);
-        println!("[{:05}] t={:.3} kzps={:.3}", state.iteration, state.time, (opts.num_zones as f64) * 1e-3 / start.elapsed().as_secs_f64());
+
+        if ! opts.quiet {
+            println!("[{:05}] t={:.3} kzps={:.3}", state.iteration, state.time, (opts.num_zones as f64) * 1e-3 / start.elapsed().as_secs_f64());
+        }
     }
 
     println!("mean kzps = {:.3}", (opts.num_zones as f64) * 1e-3 * state.iteration.to_f64().unwrap() / start_program.elapsed().as_secs_f64());
