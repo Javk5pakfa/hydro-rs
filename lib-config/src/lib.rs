@@ -67,7 +67,7 @@ pub struct ConfigError
 }
 
 impl ConfigError {
-    fn new(key: &str, why: &str) -> ConfigError {
+    pub fn new(key: &str, why: &str) -> ConfigError {
         ConfigError{key: key.into(), why: why.into()}
     }
 }

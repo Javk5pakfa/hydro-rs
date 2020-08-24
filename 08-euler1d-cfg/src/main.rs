@@ -203,11 +203,11 @@ fn run() -> Result<(), lib_config::ConfigError> {
     let gamma_law_index = 5.0 / 3.0;
     let num_zones = opts.get("num_zones").as_int() as usize;
     let rk_order = match opts.get("rk_order").as_int() {
-        1 => rk::RungeKuttaOrder::RK1,
-        2 => rk::RungeKuttaOrder::RK2,
-        3 => rk::RungeKuttaOrder::RK3,
-        _ => panic!("Runge-Kutta order must be 1, 2, or 3"),
-    };
+        1 => Ok(rk::RungeKuttaOrder::RK1),
+        2 => Ok(rk::RungeKuttaOrder::RK2),
+        3 => Ok(rk::RungeKuttaOrder::RK3),
+        _ => Err(lib_config::ConfigError::new("rk_order", "Runge-Kutta order must be 1, 2, or 3")),
+    }?;
     let mut state = initial_state(num_zones, gamma_law_index);
     let start_program = Instant::now();
 
