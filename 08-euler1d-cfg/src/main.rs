@@ -42,7 +42,7 @@
  *             of positional (not --flag) arguments, which you can forward to
  *             lib_config as model parameters. An exmaple invocation would look
  *             like
- *             
+ *
  *             ./my_program --quiet --threads=32 viscosity=1e-3 domain_radius=24
  */
 
@@ -159,7 +159,7 @@ fn make_opts() -> Result<lib_config::Form, lib_config::ConfigError> {
     /*
      * The call below transforms a sequence of strings, each having the form
      * "key=val", into a HashMap::<String, String>. The result is an error if
-     * any of the string don't have exactly one equals sign, or if redundant
+     * any of the strings does not have exactly one equals sign, or if redundant
      * keys are encountered. In this example we invoke the function with the
      * program's command line arguments, but these may also be loaded from a
      * file.
@@ -167,11 +167,14 @@ fn make_opts() -> Result<lib_config::Form, lib_config::ConfigError> {
     let arg_key_vals = lib_config::to_string_map_from_key_val_pairs(std::env::args().skip(1))?;
 
     /*
-     * All items must have a default value. The final string is an about message
-     * which you can print back to the user. One or more hash maps may be merged
-     * in after the form is populated. The result of the merge is an error if
-     * the hash map contains any keys that were not declared previously by
-     * calling 'item'.
+     * The line below defines a lib_config::Form object: a collection of
+     * declared model parameters, default values for them, and a message
+     * describing to the user what each one means. The parameter type may be
+     * bool, int, float, or string, but nothing else. Once a parameter has been
+     * declared, it may be updated with a new value of the same kind using a
+     * merge function like the one given. The result of the merge is an error if
+     * the merged-in hash map contains any keys that were not previously
+     * declared in the form.
      */
     lib_config::Form::new()
         .item("num_zones" , 5000   , "Number of grid cells to use")
